@@ -16,6 +16,8 @@ TagManager:
   - Wood (Static)
   - Dirt (Static)
   - Wood
+  - Enemy
+  - Projectile
   layers:
   - Default
   - TransparentFX
