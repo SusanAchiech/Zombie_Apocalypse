@@ -2,50 +2,94 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
 public class TakeDamage : MonoBehaviour
-{
-    public int maxHealth;
-    public int EnemyHealth;
+ {
+              public int maxHealth;
+               public int EnemyHealth;
 
-    bool enemyDead;
+               bool enemyDead;
+       bool routineStarted = false;
 
-    // Start is called before the first frame update
+       public bool isHit = false;
+
+       [Header("Audio")]
+
+       public AudioClip downSound;
+
+       [Header("Animations")]
+       public AnimationClip ZombieFallingBackwards;
+
+
+       public AudioSource audioSource;
+       // Start is called before the first frame update
+       void Start()
+               {
+                   EnemyHealth = maxHealth;
+               }
+
+               private void EnemyKilled()
+               {
+                   if (!enemyDead)
+                   {
+                       enemyDead = true;
+                       Debug.Log("Zombie dead");
+                       gameObject.SetActive(false);
+                   }
+               }
+
+               public void OnCollisionEnter(Collision collision)
+               {
+                       if (isHit == true)
+                       {
+                           if (routineStarted == false)
+                           {
+                               //Animate the target "down"
+                               gameObject.GetComponent<Animation>().clip = ZombieFallingBackwards;
+                               gameObject.GetComponent<Animation>().Play();
+
+                               //Set the downSound as current sound, and play it
+                               audioSource.GetComponent<AudioSource>().clip = downSound;
+                               audioSource.Play();
+
+                               //Start the timer
+
+                               routineStarted = true;
+                           }
+                       }
+                        }
+
+               // Update is called once per frame
+               void Update()
+                       {
+
+                       }
+
+
+public int maxHealth = 100;
+    private int currentHealth;
+
     void Start()
     {
-        EnemyHealth = maxHealth;
+        currentHealth = maxHealth;
     }
 
-    private void EnemyKilled()
+    public void TakeDamage(int damage)
     {
-        if (!enemyDead)
+        currentHealth -= damage;
+
+        if (currentHealth <= 0)
         {
-            enemyDead = true;
-            Debug.Log("Zombie dead");
-            gameObject.SetActive(false);
+            Die();
         }
     }
 
-    public void OnCollisionEnter(Collision collision)
+    void Die()
     {
-        if (collision.gameObject.CompareTag("Enemy"))
-        {
-            // Check if the collision object has a "Projectile" component.
-            Projectile projectile = collision.gameObject.GetComponent<Projectile>();
-            if (projectile != null)
-            {
-                EnemyHealth -= projectile.damage;
-
-                if (EnemyHealth <= 0)
-                {
-                    EnemyKilled();
-                }
-            }
-        }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        // Implement death behavior (e.g., play death animation, deactivate GameObject, etc.).
+        // You can also handle scoring or other game logic here.
+        gameObject.SetActive(false);
     }
 }*/
+

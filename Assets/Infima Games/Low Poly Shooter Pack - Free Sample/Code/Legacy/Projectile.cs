@@ -4,11 +4,12 @@ using System.Collections;
 using InfimaGames.LowPolyShooterPack;
 using Random = UnityEngine.Random;
 
-public class Projectile : MonoBehaviour {
 
-	[Range(5, 100)]
-	[Tooltip("After how long time should the bullet prefab be destroyed?")]
+public class Projectile : MonoBehaviour {
 	public float destroyAfter;
+
+	/*[Range(5, 100)]
+	[Tooltip("After how long time should the bullet prefab be destroyed?")]
 	[Tooltip("If enabled the bullet destroys on impact")]
 	public bool destroyOnImpact = false;
 	[Tooltip("Minimum time after impact that the bullet is destroyed")]
@@ -111,11 +112,12 @@ public class Projectile : MonoBehaviour {
 		}
 
 		//If bullet collides with "Target" tag
-		if (collision.transform.tag == "Target") 
+		if (collision.transform.tag == "Enemy") 
 		{
 			//Toggle "isHit" on target object
 			collision.transform.gameObject.GetComponent
 				<TargetScript>().isHit = true;
+			Debug.Log("Enemy hit");
 			//Destroy bullet object
 			Destroy(gameObject);
 		}
@@ -148,7 +150,7 @@ public class Projectile : MonoBehaviour {
 			(Random.Range(minDestroyTime, maxDestroyTime));
 		//Destroy bullet object
 		Destroy(gameObject);
-	}
+	}*/
 
 	private IEnumerator DestroyAfter () 
 	{
@@ -157,4 +159,19 @@ public class Projectile : MonoBehaviour {
 		//Destroy bullet object
 		Destroy (gameObject);
 	}
+
+
+    public int damage = 10; // Adjust the damage value as needed.
+
+    void OnCollisionEnter(Collision collision)
+    {
+        EnemyTakeDamage Zombie1 = collision.gameObject.GetComponent<EnemyTakeDamage>();
+
+        if (Zombie1 != null)
+        {
+            Zombie1.TakeDamage(damage);
+            Destroy(gameObject); // Destroy the projectile when it hits the zombie.
+        }
+    }
 }
+

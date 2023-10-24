@@ -274,7 +274,7 @@ GameObject:
   - component: {fileID: 524015489424269637}
   m_Layer: 0
   m_Name: P_LPSP_WEP_AR_01
-  m_TagString: Projectile
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

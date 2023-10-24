@@ -5,11 +5,34 @@ using UnityEngine;
 public class ZombieMovement : MonoBehaviour
 {
     public Transform player;
+    private UnityEngine.AI.NavMeshAgent navMeshAgent;
     public Animator zombieAnimator;
 
     public float walkDistance = 10.0f; // Distance at which the zombie starts walking.
     public float runDistance = 5.0f;   // Distance at which the zombie starts running.
 
+    
+
+
+    private void Start()
+    {
+        navMeshAgent = GetComponent < UnityEngine.AI.NavMeshAgent>();
+
+        if (player != null)
+        {
+            // Set the player's position as the target destination for the zombie.
+            zombieAnimator.SetFloat("Speed", 0.5f);
+            navMeshAgent.SetDestination(player.position);
+        }
+    }
+
+   /*private void OnAnimationZ_Attack()
+    {
+        if (zombieAnimator != null)
+        {
+            zombieAnimator.AnimationZ_Attack();
+        }
+    }*/
     private void Update()
     {
         // Calculate the distance between the zombie and the player.
